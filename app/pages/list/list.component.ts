@@ -12,11 +12,13 @@ var socialShare = require("nativescript-social-share");
   providers: [GroceryListService]
 })
 export class ListPage implements OnInit {
+  
   groceryList: Array<Grocery> = [];
   grocery: string = "";
   isLoading = false;
   listLoaded = false;
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
+
 
   constructor(private _groceryListService: GroceryListService) {}
   
@@ -54,6 +56,41 @@ export class ListPage implements OnInit {
             okButtonText: "OK"
           });
           this.grocery = "";
+        }
+      )
+  }
+  
+  delete(itemId: string) {
+
+
+    this._groceryListService.delete(itemId)
+      .subscribe(
+        id => {
+          var newGroceryList: Array<Grocery> = [];
+          for(
+            let i = 0, 
+            size = this.groceryList.length; 
+            i < size; 
+            i++ 
+          ){             
+            if (this.groceryList[i].id === id) {
+              this.groceryList.splice(i,1);
+              
+            }
+          }
+          
+          alert({
+            message: "Successfully Deleted.",
+            okButtonText: "OK"
+          });          
+          
+        },
+        () => {
+          alert({
+            message: "An error occurred while deleting an item to your list.",
+            okButtonText: "OK"
+          });
+          
         }
       )
   }
