@@ -1,8 +1,39 @@
-.vscode/
-app/**/*.js
-hooks/
-lib/
-node_modules/
-platforms/
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
 tmp/
+app/**/*.js
+app/**/*.js.map
+platforms/
+
+# dependencies
+node_modules/
+/bower_components
+lib/
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+*.launch
+.settings/
+.vscode/
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
 typings/
+hooks/
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+#System Files
+.DS_Store
+Thumbs.db

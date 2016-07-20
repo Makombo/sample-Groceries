@@ -1,15 +1,23 @@
 {
+    "compileOnSave": false,
     "compilerOptions": {
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noEmitOnError": true,
+        "noImplicitAny": false,
         "outDir": "app",
         "rootDir": "app",
-        "module": "commonjs",
-        "target": "es5",
         "inlineSourceMap": true,
-        "experimentalDecorators": true,
-        "removeComments": false,
-        "emitDecoratorMetadata": true,
-        "noEmitOnError": true
+        "target": "es5",
+        "inlineSources": true
     },
+    "filesGlob": [
+        "app/**/*.ts",
+        "typings/**/*.d.ts"
+    ],
     "exclude": [
         "node_modules",
         "platforms"
