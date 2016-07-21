@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit, ViewChild} from "@angular/core";
+import {Component, ElementRef, OnInit, ViewChild, NgZone} from "@angular/core";
 import {Grocery} from "../../shared/grocery/grocery";
 import {GroceryListService} from "../../shared/grocery/grocery-list.service";
 import {TextField} from "ui/text-field";
@@ -20,7 +20,10 @@ export class ListPage implements OnInit {
   @ViewChild("groceryTextField") groceryTextField: ElementRef;
 
 
-  constructor(private _groceryListService: GroceryListService) {}
+  constructor(
+    private _groceryListService: GroceryListService,
+    private _zone: NgZone ){   
+  }
   
   ngOnInit() {
     this.isLoading = true;
@@ -60,39 +63,16 @@ export class ListPage implements OnInit {
       )
   }
   
-  delete(itemId: string) {
-
-
-    this._groceryListService.delete(itemId)
-      .subscribe(
-        id => {
-          var newGroceryList: Array<Grocery> = [];
-          for(
-            let i = 0, 
-            size = this.groceryList.length; 
-            i < size; 
-            i++ 
-          ){             
-            if (this.groceryList[i].id === id) {
-              this.groceryList.splice(i,1);
-              
-            }
-          }
-          
-          alert({
-            message: "Successfully Deleted.",
-            okButtonText: "OK"
-          });          
-          
-        },
-        () => {
-          alert({
-            message: "An error occurred while deleting an item to your list.",
-            okButtonText: "OK"
-          });
-          
-        }
-      )
+  delete(grocery: Grocery) {
+    this._groceryListService.delete(grocery.id)
+      .subscribe(() => {
+        // Running the change detection in a zone ensures that change
+        // detection gets triggered if needed.
+        this._zone.run(() => {
+          var index = this.groceryList.indexOf(grocery);
+          this.groceryList.splice(index, 1);
+        });
+      });
   }
   
   share() {
